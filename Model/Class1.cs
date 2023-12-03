@@ -1,4 +1,4 @@
-﻿namespace Business
+﻿namespace Model
 {
 	public class Class1
 	{
