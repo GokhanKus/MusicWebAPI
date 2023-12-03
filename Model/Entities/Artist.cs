@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Model.Entities
 {
-	public class Artist
+	public class Artist:BaseEntity
 	{
-		public int ArtistId { get; set; }
+		
 		public string ArtistName { get; set; }
 		public string? Nationality { get; set; }
 		public List<Song> Songs { get; set; }
