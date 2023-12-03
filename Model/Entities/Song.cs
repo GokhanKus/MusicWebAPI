@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Model.Entities
 	/// <summary>
 	/// This is A Song Entity
 	/// </summary>
-	public class Song
+	public class Song:BaseEntity
 	{
 		public int SongId { get; set; }
 		public string SongName { get; set; }
