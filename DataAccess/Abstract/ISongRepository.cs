@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.DataAccess.Abstract
+namespace DataAccess.Abstract
 {
-	public interface IGenericRepository<TEntity>
+	public interface ISongRepository
 	{
-
 	}
 }

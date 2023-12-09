@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Business.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.DataAccess.Abstract
+namespace Business.Concrete
 {
-	public interface IGenericRepository<TEntity>
+	public class ArtistService:IArtistService
 	{
+
 
 	}
 }

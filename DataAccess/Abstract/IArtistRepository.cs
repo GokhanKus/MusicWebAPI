@@ -1,16 +1,15 @@
 ﻿using Infrastructure.DataAccess.Abstract;
+using Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.DataAccess.Concrete
+namespace DataAccess.Abstract
 {
-	public class GenericRepository<TEntity, TContext>:IGenericRepository<TEntity>
+	public interface IArtistRepository:IGenericRepository<Artist>
 	{
-
-		
 
 
 	}
