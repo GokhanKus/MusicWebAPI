@@ -10,7 +10,11 @@ namespace DataAccess.Context
 {
 	public class SongContext:DbContext
 	{
-		public SongContext(DbContextOptions<SongContext> options) : base(options)
+        public SongContext()
+        {
+            
+        }
+        public SongContext(DbContextOptions<SongContext> options) : base(options)
 		{
 
 		}

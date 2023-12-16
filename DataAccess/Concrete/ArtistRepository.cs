@@ -1,4 +1,7 @@
 ﻿using DataAccess.Abstract;
+using DataAccess.Context;
+using Infrastructure.DataAccess.Concrete;
+using Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +10,13 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-	public class ArtistRepository:IArtistRepository
+	public class ArtistRepository : GenericRepository<Artist, SongContext>, IArtistRepository
 	{
+		public ArtistRepository(SongContext tcontext) : base(tcontext)
+		{
+
+		}
 
 	}
 }
+	

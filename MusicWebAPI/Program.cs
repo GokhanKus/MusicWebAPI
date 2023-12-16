@@ -1,4 +1,6 @@
 
+using DataAccess.Abstract;
+using DataAccess.Concrete;
 using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +22,7 @@ namespace MusicWebAPI
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+			builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
