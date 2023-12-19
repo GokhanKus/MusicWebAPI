@@ -3,7 +3,7 @@ using DataAccess.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Model.DTOs.Artist;
+using Model.DTOs.ArtistDTO;
 using Model.Entities;
 
 namespace MusicWebAPI.Controllers
@@ -17,7 +17,6 @@ namespace MusicWebAPI.Controllers
 		public ArtistController(IArtistRepository artistRepository)
 		{
 			_artistRepository = artistRepository;
-
 		}
 		[HttpGet]
 		public IActionResult GetAllArtist()
@@ -25,7 +24,6 @@ namespace MusicWebAPI.Controllers
 			var value = _artistRepository.GetAll();
 
 			return Ok(value);
-
 		}
 		[HttpGet("{Id}")]
 		public IActionResult GetArtist(int Id) //songların gelmemesi icin dto yazılabilir

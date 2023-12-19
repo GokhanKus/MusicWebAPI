@@ -11,6 +11,5 @@ namespace DataAccess.Abstract
 	public interface IArtistRepository:IGenericRepository<Artist>
 	{
 
-
 	}
 }

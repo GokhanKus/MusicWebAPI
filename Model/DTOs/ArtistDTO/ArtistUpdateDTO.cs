@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.DTOs.Artist
+namespace Model.DTOs.ArtistDTO
 {
 	public class ArtistUpdateDTO
 	{
