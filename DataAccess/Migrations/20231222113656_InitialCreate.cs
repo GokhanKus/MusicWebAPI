@@ -64,7 +64,7 @@ namespace DataAccess.Migrations
                     SongName = table.Column<string>(type: "TEXT", maxLength: 75, nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Language = table.Column<string>(type: "TEXT", nullable: true),
+                    Language = table.Column<int>(type: "INTEGER", nullable: false),
                     AlbumId = table.Column<int>(type: "INTEGER", nullable: false),
                     ReleaseDate = table.Column<int>(type: "INTEGER", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false),

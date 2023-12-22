@@ -10,7 +10,7 @@ namespace Model.Entities
 	public class Genre:BaseEntity
 	{
 		public string GenreName { get; set; }
-		public List<Song> Songs { get; set; } //navigation property
+		public List<Song>? Songs { get; set; } //navigation property
 
 	}
 }

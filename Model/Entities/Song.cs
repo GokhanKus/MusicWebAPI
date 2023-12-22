@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Model;
+using Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +17,7 @@ namespace Model.Entities
 		public string SongName { get; set; }
 		public string? Description { get; set; }
 		public string? ImageUrl { get; set; }
-		public string? Language { get; set; }
+		public Language Language { get; set; }
 
 		public int AlbumId { get; set; }
 		public List<Genre>? Genres { get; set; } //many to many relation with Genre

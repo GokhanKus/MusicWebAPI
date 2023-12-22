@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Context;
+using DataAccess.DataSeeding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -25,6 +26,12 @@ namespace MusicWebAPI
 			builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 			builder.Services.AddScoped<ISongRepository, SongRepository>();
 			var app = builder.Build();
+
+			#region DataSeed
+
+			DataSeeding.SeedData(app.Services);
+
+			#endregion
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())

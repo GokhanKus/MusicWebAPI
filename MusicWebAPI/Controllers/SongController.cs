@@ -44,7 +44,7 @@ namespace MusicWebAPI.Controllers
 				SongName = model.SongName,
 				Description = model.Description,
 				ReleaseDate = model.ReleaseDate,
-
+				AlbumId = model.AlbumId,
 			};
 			var existingArtist = _artistRepository.Get(i => i.ArtistName == model.ArtistName);
 			if (existingArtist == null)

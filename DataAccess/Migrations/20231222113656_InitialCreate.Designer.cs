@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SongContext))]
-    [Migration("20231219143911_InitialCreate")]
+    [Migration("20231222113656_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -129,8 +129,8 @@ namespace DataAccess.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Language")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Language")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("TEXT");

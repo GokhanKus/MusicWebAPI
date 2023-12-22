@@ -126,8 +126,8 @@ namespace DataAccess.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Language")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Language")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("TEXT");
