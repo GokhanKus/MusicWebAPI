@@ -13,8 +13,8 @@ namespace Model.DTOs.SongDTO
         public string? Description{ get; set; }
 		public string? ArtistName { get; set; }
 		public int? ReleaseDate { get; set; }
-		//song eklerken albumId'yide atamamız lazım (one to many relation) yoksa foreign key constraint hatası alıyoruz ONEMLI
-		public int AlbumId { get; set; }
-        
-    }
+		//song eklerken albumId'yide atamamız lazım ya da esnek hale getirmemiz lazım yoksa foreign key constraint hatası alıyoruz ONEMLI SongController AddSong fonkiyonuna bak
+		public int? AlbumId { get; set; }
+
+	}
 }

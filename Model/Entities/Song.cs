@@ -19,9 +19,9 @@ namespace Model.Entities
 		public string? ImageUrl { get; set; }
 		public Language Language { get; set; }
 
-		public int AlbumId { get; set; }
+		public int? AlbumId { get; set; }   //burayı nullable yapmazsak, default olarak 0 degerini alır ve album tablosunda albumId'si 0 olan kayıta eklemeye calisir oyle kayit olmadigi icin hata verir
 		public List<Genre>? Genres { get; set; } //many to many relation with Genre
-		public Album? Album { get; set; } //many to many relation with Album ( burada one to many de yapılabilir )
+		public Album? Album { get; set; } //one to many relation with Album ( burada many to many de yapılabilir )
 			
 		//bir albumde birden fazla şarkı olabilir, bir şarkı da birden fazla albumde bulunabilir(aynı şarkıyı farklı biri de söylemis olabilir.)
 		public List<Artist>? Artists { get; set; } //many to many bir şarkıyı birden fazla sanatçı soyler, bir sanatçı da birden fazla şarkı soyler

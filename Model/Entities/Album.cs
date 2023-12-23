@@ -9,7 +9,7 @@ namespace Model.Entities
 {
 	public class Album:BaseEntity
 	{		
-		public string AlbumName { get; set; }
-		public List<Song> Songs { get; set; }
+		public string? AlbumName { get; set; }
+		public List<Song>? Songs { get; set; }
 	}
 }
