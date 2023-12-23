@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Model.DTOs.ArtistDTO;
 using Model.Entities;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MusicWebAPI.Controllers
 {
@@ -18,12 +20,20 @@ namespace MusicWebAPI.Controllers
 		{
 			_artistRepository = artistRepository;
 		}
+		#region ReferenceHandler.IgnoreCycles ve ReferenceHandler.Preserve 
+		//ReferenceHandler.IgnoreCycles ve ReferenceHandler.Preserve arasındaki fark şudur;
+		//preserve'de döngüsel referansı alır daha buyuk json ciktisi olabilir outputu daha karmasiktir.
+		//ignore cycles döngusel referansları yok sayar boyutu daha kucuktur daha sadedir
+		//Yani aynı nesnenin birden çok referansı olduğunda, yalnızca bir referansı kullanır ve diğer referansları atlar
+		#endregion
 		[HttpGet]
 		public IActionResult GetAllArtist()
 		{
-			var value = _artistRepository.GetAll();
+			var value = _artistRepository.GetAll(includeList: "Songs"); /*includeList: "Songs"*/
+			//return Ok(value);
 
-			return Ok(value);
+			var jsonString = JsonSerializer.Serialize(value, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true });//pretty printing
+			return Ok(jsonString);
 		}
 		[HttpGet("{Id}")]
 		public IActionResult GetArtist(int Id) //songların gelmemesi icin dto yazılabilir
@@ -31,13 +41,16 @@ namespace MusicWebAPI.Controllers
 			//_artistRepository.Get
 			//_context.Artist.FirstOrDefault(i=>i.id == model.id)
 
-			var artist = _artistRepository.Get(i => i.Id == Id);
+			var artist = _artistRepository.Get(i => i.Id == Id, includeList: "Songs");//,includeList:"Songs"
+
+			var jsonString = JsonSerializer.Serialize(artist, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve, WriteIndented = true });//pretty printing
 
 			if (artist == null)
 			{
 				return BadRequest("id degeri hatali");
 			}
-			return Ok(artist);
+			//return Ok(artist);
+			return Ok(jsonString);
 		}
 
 		[HttpPost]
