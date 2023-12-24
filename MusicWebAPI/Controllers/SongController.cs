@@ -65,7 +65,7 @@ namespace MusicWebAPI.Controllers
 			{
 				existingArtist = new Artist
 				{
-					ArtistName = model.ArtistName??""
+					ArtistName = model.ArtistName ?? ""
 				};
 				_artistRepository.Insert(existingArtist);
 			}
@@ -75,6 +75,45 @@ namespace MusicWebAPI.Controllers
 			_songRepository.Insert(song);
 			return Ok(song);
 
+		}
+		[HttpPut]
+		public IActionResult UpdateSong(int id, SongUpdateDTO model)
+		{
+			if (id != model.Id)
+			{
+				return BadRequest();
+			}
+			var song = _songRepository.Get(s => s.Id == id);
+			if (song == null)
+			{
+				return NotFound(); //aranan sarki bulunamadi
+			}
+			song.SongName = model.SongName;
+			song.Description = model.Description;
+			song.ReleaseDate = model.ReleaseDate;
+			song.Artists = new List<Artist> { new Artist { ArtistName = model.ArtistName } }; //guncelleme isleminde ornegin adi x olan artist dbde var iken yine x olarak guncellersek yeni kayit ekliyor bunu duzelt.
+			song.Language = model.Language;
+			song.ModifiedDate = model.ModifiedDate;
+			try
+			{
+				_songRepository.Update(song);
+				return Ok(new { Message = "Başarıyla güncellendi" });
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(new { ErrorMessage = $"Güncelleme hatası: {ex.Message}" });
+			}
+		}
+		[HttpDelete]
+		public IActionResult DeleteSong(int id)
+		{
+			var song = _songRepository.Get(s => s.Id == id);
+			if (song == null)
+			{
+				return NotFound(new { Message = "silinecek sarki bulunamadi" });
+			}
+			_songRepository.Delete(song);
+			return NoContent(); //basarili bir silme isleminden sonra 204 durum kodu döndürülür
 		}
 	}
 }

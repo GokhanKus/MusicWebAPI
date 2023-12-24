@@ -68,15 +68,16 @@ namespace MusicWebAPI.Controllers
 		}
 
 		[HttpPut]
-		public IActionResult UpdateArtist(ArtistUpdateDTO artist)
+		public IActionResult UpdateArtist(ArtistUpdateDTO model)
 		{
-			var model = _artistRepository.Get(x => x.Id == artist.Id);
-			if (model != null)
+			var artist = _artistRepository.Get(a => a.Id == model.Id);
+			if (artist != null)
 			{
-				model.ArtistName = artist.ArtistName;
-				model.Nationality = artist.Nationality;
-				_artistRepository.Update(model);
-				return Ok(model);
+				artist.ArtistName = model.ArtistName;
+				artist.Nationality = model.Nationality;
+				artist.ModifiedDate = model.ModifiedDate;
+				_artistRepository.Update(artist);
+				return Ok(artist);
 			}
 			return BadRequest("entity bulunamadi");
 		}

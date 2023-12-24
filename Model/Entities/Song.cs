@@ -14,7 +14,7 @@ namespace Model.Entities
 	/// </summary>
 	public class Song:BaseEntity
 	{
-		public string SongName { get; set; }
+		public string? SongName { get; set; }
 		public string? Description { get; set; }
 		public string? ImageUrl { get; set; }
 		public Language Language { get; set; }

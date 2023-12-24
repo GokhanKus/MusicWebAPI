@@ -9,9 +9,9 @@ namespace Model.Entities
 {
 	public class Artist:BaseEntity
 	{
-		public string ArtistName { get; set; }
+		public string? ArtistName { get; set; }
 		public string? Nationality { get; set; }
-		public List<Song> Songs { get; set; }
+		public List<Song>? Songs { get; set; }
 		public DateTime ModifiedDate { get; set; }
 
 	}
