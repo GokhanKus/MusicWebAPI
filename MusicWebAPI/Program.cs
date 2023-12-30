@@ -23,8 +23,11 @@ namespace MusicWebAPI
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+			#region Injections
 			builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 			builder.Services.AddScoped<ISongRepository, SongRepository>();
+			builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+			#endregion
 			var app = builder.Build();
 
 			#region DataSeed

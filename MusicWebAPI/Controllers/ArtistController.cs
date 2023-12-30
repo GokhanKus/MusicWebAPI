@@ -29,18 +29,21 @@ namespace MusicWebAPI.Controllers
 		[HttpGet]
 		public IActionResult GetAllArtist()
 		{
-			var value = _artistRepository.GetAll(includeList: "Songs"); /*includeList: "Songs"*/
+			var value = _artistRepository.GetAll(includeList: "Songs");
 			//return Ok(value);
 
 			var jsonString = JsonSerializer.Serialize(value, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true });//pretty printing
 			return Ok(jsonString);
 		}
 		[HttpGet("{Id}")]
-		public IActionResult GetArtist(int Id) //songların gelmemesi icin dto yazılabilir
+		public IActionResult GetArtist(int? Id) //songların gelmemesi icin dto yazılabilir
 		{
 			//_artistRepository.Get
 			//_context.Artist.FirstOrDefault(i=>i.id == model.id)
-
+			if (Id == null)
+			{
+				return NotFound();//return StatusCode(404, "");
+			}
 			var artist = _artistRepository.Get(i => i.Id == Id, includeList: "Songs");//,includeList:"Songs"
 
 			var jsonString = JsonSerializer.Serialize(artist, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve, WriteIndented = true });//pretty printing
@@ -54,17 +57,18 @@ namespace MusicWebAPI.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddArtist(ArtistInsertDto artistDto)
+		public IActionResult AddArtist(ArtistInsertDto model)
 		{
 			var artist = new Artist
 			{
-				ArtistName = artistDto.ArtistName,
-				Nationality = artistDto.Nationality,
+				ArtistName = model.ArtistName,
+				Nationality = model.Nationality,
 			};
 
 			_artistRepository.Insert(artist);
 
-			return Ok(artist);
+			//return Ok(artist);
+			return CreatedAtAction(nameof(GetArtist), new { id = artist.Id}, artist);//model instead of artist
 		}
 
 		[HttpPut]
@@ -77,20 +81,26 @@ namespace MusicWebAPI.Controllers
 				artist.Nationality = model.Nationality;
 				artist.ModifiedDate = model.ModifiedDate;
 				_artistRepository.Update(artist);
-				return Ok(artist);
+				//return Ok(artist);
+				return NoContent();//204 code basarili bir update veya delete isleminden sonra kullanılabilir
 			}
 			return BadRequest("entity bulunamadi");
 		}
 
 		[HttpDelete]
-		public IActionResult DeleteArtist(int Id)
+		public IActionResult DeleteArtist(int? Id)
 		{
+			if (Id == null)
+			{
+				return NotFound();
+			}
 			var entity = _artistRepository.Get(i => i.Id == Id);
 
 			if (entity != null)
 			{
 				_artistRepository.Delete(entity);
 				return Ok(entity);
+				//return NoContent();
 			}
 			return BadRequest("entity bulunamadi ve silinemedi");
 		}

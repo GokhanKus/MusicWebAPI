@@ -55,55 +55,14 @@ namespace DataAccess.DataSeeding
 
 					context.SaveChanges();
 
-				}
-				if (!context.Songs.Any())
-				{
-					context.Songs.AddRange(
-						new Song
-						{
-							SongName = "The Red Baron",
-							Artists = new List<Artist> { new Artist { ArtistName = "Sabaton", Nationality = "Sweden", CreatedDate = DateTime.Now.AddDays(-30) } },
-							CreatedDate = DateTime.Now.AddDays(-30),
-							Description = "\"The Red Baron\" by Sabaton is a powerful heavy metal anthem that vividly portrays the legendary World War I flying ace Manfred von Richthofen, known as the Red Baron, capturing the intensity and heroism of aerial combat.",
-							Language = Language.English,
-							ReleaseDate = 2019,
-							Genres = new List<Genre> { new Genre { GenreName = "Power Metal", CreatedDate = DateTime.Now } },
-							AlbumId = 1
-						},
-						new Song
-						{
-							SongName = "Wasting Love",
-							Artists = new List<Artist> { new Artist { ArtistName = "Iron Maiden", Nationality = "The UK", CreatedDate = DateTime.Now.AddDays(-20) } },
-							CreatedDate = DateTime.Now.AddDays(-30),
-							Description = "Wasting Love by Iron Maiden is a poignant ballad that explores themes of heartbreak and introspection,showcasing the band's versatility beyond their signature heavy metal sound",
-							Language = Language.English,
-							ReleaseDate = 1992,
-							Genres = new List<Genre> { new Genre { GenreName = "Power Metal", CreatedDate = DateTime.Now } },
-							AlbumId = 2
-						},
-						new Song
-						{
-							SongName = "Killers with the Cross",
-							Artists = new List<Artist> { new Artist { ArtistName = "Powerwolf", Nationality = "Germany", CreatedDate = DateTime.Now.AddDays(-50) } },
-							CreatedDate = DateTime.Now.AddDays(-30),
-							Description = "Killers with the Cross by Powerwolf is a high - energy,anthemic metal track that combines powerful vocals and relentless instrumentals to create a captivating and exhilarating listening experience.",
-							Language = Language.English,
-							ReleaseDate = 2018,
-							Genres = new List<Genre> { new Genre { GenreName = "Power Metal", CreatedDate = DateTime.Now } },
-							AlbumId = 3
-						});
-
-					context.SaveChanges();
-
-				}
-				if (!context.Genres.Any())
-				{
-					context.Genres.AddRange(
-						new Genre
-						{
-							GenreName = "Heavy Metal",
-							CreatedDate = DateTime.Now,
-							Songs = new List<Song> {
+					if (!context.Genres.Any())
+					{
+						context.Genres.AddRange(
+							new Genre
+							{
+								GenreName = "Heavy Metal",
+								CreatedDate = DateTime.Now,
+								Songs = new List<Song> {
 								new Song
 								{
 									SongName = "Breaking the Law",
@@ -115,7 +74,52 @@ namespace DataAccess.DataSeeding
 									Genres = new List<Genre> { new Genre { GenreName = "Rock Metal", CreatedDate = DateTime.Now } },
 									AlbumId = 4
 								}},
-						});
+							});
+
+						context.SaveChanges();
+
+					}
+				}
+				if (!context.Songs.Any())
+				{
+					var powerMetalGenre = new Genre { GenreName = "Power Metal", CreatedDate = DateTime.Now };
+					context.Genres.Add(powerMetalGenre);
+
+					context.Songs.AddRange(
+						new Song
+						{
+							SongName = "The Red Baron",
+							Artists = new List<Artist> { new Artist { ArtistName = "Sabaton", Nationality = "Sweden", CreatedDate = DateTime.Now.AddDays(-30) } },
+							CreatedDate = DateTime.Now.AddDays(-30),
+							Description = "\"The Red Baron\" by Sabaton is a powerful heavy metal anthem that vividly portrays the legendary World War I flying ace Manfred von Richthofen, known as the Red Baron, capturing the intensity and heroism of aerial combat.",
+							Language = Language.English,
+							ReleaseDate = 2019,
+							Genres =  new List<Genre> {powerMetalGenre},
+							AlbumId = 1
+						},
+						new Song
+						{
+							SongName = "Wasting Love",
+							Artists = new List<Artist> { new Artist { ArtistName = "Iron Maiden", Nationality = "The UK", CreatedDate = DateTime.Now.AddDays(-20) } },
+							CreatedDate = DateTime.Now.AddDays(-30),
+							Description = "Wasting Love by Iron Maiden is a poignant ballad that explores themes of heartbreak and introspection,showcasing the band's versatility beyond their signature heavy metal sound",
+							Language = Language.English,
+							ReleaseDate = 1992,
+							//Genres = new List<Genre> { new Genre { GenreName = "Power Metal", CreatedDate = DateTime.Now } },
+							Genres = new List<Genre> { powerMetalGenre },
+							AlbumId = 2
+						},
+						new Song
+						{
+							SongName = "Killers with the Cross",
+							Artists = new List<Artist> { new Artist { ArtistName = "Powerwolf", Nationality = "Germany", CreatedDate = DateTime.Now.AddDays(-50) } },
+							CreatedDate = DateTime.Now.AddDays(-30),
+							Description = "Killers with the Cross by Powerwolf is a high - energy,anthemic metal track that combines powerful vocals and relentless instrumentals to create a captivating and exhilarating listening experience.",
+							Language = Language.English,
+							ReleaseDate = 2018,
+							Genres = new List<Genre> { powerMetalGenre },
+							AlbumId = 3
+						}); ;
 
 					context.SaveChanges();
 
