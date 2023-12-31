@@ -39,39 +39,28 @@ namespace MusicWebAPI.Controllers
 		[HttpPost]
 		public IActionResult AddSong(SongInsertDTO model)
 		{
+		    //ID'si Gelen Artistleri Alacağız.
+			var artists = _artistRepository.GetAll(x=>model.ArtistIds.Contains(x.Id)).ToList();
+
+			//Bu Şekilde de Alabiliriz.
+			//var artists = new List<Artist>();
+			//foreach(int ID in model.ArtistIds)
+			//{
+			//	var value = _artistRepository.Get(x => x.Id == ID);
+			//	artists.Add(value);
+
+			//}
+
+
 			var song = new Song
 			{
 				SongName = model.SongName,
 				Description = model.Description,
 				ReleaseDate = model.ReleaseDate,
-			};
-
-			#region Foreign Key Constraint Failed Hatasi
-
-			/*
-			onceden song entityde AlbumId default olarak 0 geliyordu ve albumId'nin degerini belirtmezsek bu hataya sebep oluyordu, cunku sarkiyi
-			albumId'si 0 olan kayıda eklemeye calisiyordu ve oyle bir kayit olmadigi icin FOREIGN KEY CONSTRAINT FAILED hatası alıyorduk
-			biz bunu esnek hale getirdik asagida kontrol ederek ve nullable yaptik yani artik sarkiyi eklerken bir albume ait olmak zorunda degil.
-			 */
-			#endregion
-			var existingAlbum = _songRepository.Get(i => i.AlbumId == model.AlbumId);
-			if (existingAlbum != null)
-			{
-				song.AlbumId = model.AlbumId;
-			}
-
-			var existingArtist = _artistRepository.Get(i => i.ArtistName == model.ArtistName);
-			if (existingArtist == null)
-			{
-				existingArtist = new Artist
-				{
-					ArtistName = model.ArtistName ?? ""
-				};
-				_artistRepository.Insert(existingArtist);
-			}
-
-			//song.Artists.Add(existingArtist);
-
+				AlbumId = model.AlbumId,
+				Artists = artists
+			};	
+			
 			_songRepository.Insert(song);
 			return Ok(song);
 

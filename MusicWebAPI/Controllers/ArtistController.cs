@@ -27,13 +27,12 @@ namespace MusicWebAPI.Controllers
 		//Yani aynı nesnenin birden çok referansı olduğunda, yalnızca bir referansı kullanır ve diğer referansları atlar
 		#endregion
 		[HttpGet]
-		public IActionResult GetAllArtist()
-		{
-			var value = _artistRepository.GetAll(includeList: "Songs");
-			//return Ok(value);
-
-			var jsonString = JsonSerializer.Serialize(value, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true });//pretty printing
-			return Ok(jsonString);
+		public IActionResult GetAllArtist() 
+		{			 
+			var value = _artistRepository.GetAll(includeList:"Songs");
+			
+			//return Ok(value);			
+			return Ok(value);
 		}
 		[HttpGet("{Id}")]
 		public IActionResult GetArtist(int? Id) //songların gelmemesi icin dto yazılabilir
@@ -46,14 +45,7 @@ namespace MusicWebAPI.Controllers
 			}
 			var artist = _artistRepository.Get(i => i.Id == Id, includeList: "Songs");//,includeList:"Songs"
 
-			var jsonString = JsonSerializer.Serialize(artist, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve, WriteIndented = true });//pretty printing
-
-			if (artist == null)
-			{
-				return BadRequest("id degeri hatali");
-			}
-			//return Ok(artist);
-			return Ok(jsonString);
+			return Ok(artist);
 		}
 
 		[HttpPost]
