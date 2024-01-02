@@ -1,4 +1,6 @@
 
+using Business.Abstract;
+using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Context;
@@ -27,6 +29,7 @@ namespace MusicWebAPI
 			builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 			builder.Services.AddScoped<ISongRepository, SongRepository>();
 			builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+			builder.Services.AddScoped<IGenreService, GenreService>();
 			#endregion
 			var app = builder.Build();
 

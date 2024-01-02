@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Business.Abstract;
+using DataAccess.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTOs.GenreDTO;
@@ -10,22 +11,26 @@ namespace MusicWebAPI.Controllers
 	[ApiController]
 	public class GenreController : ControllerBase
 	{
-		private readonly IGenreRepository _genreRepository;
+		//private readonly IGenreRepository _genreRepository;
+		//Arık Her şeyi Servis Üzerinden Yapacağız.
+		private readonly IGenreService _genreService;
 
-		public GenreController(IGenreRepository genreRepository)
-		{
-			_genreRepository = genreRepository;
-		}
-		[HttpGet]
+        public GenreController(IGenreService genreService)
+        {
+            //_genreRepository = genreRepository;
+            _genreService = genreService;
+        }
+        [HttpGet]
 		public IActionResult GetGenres()
 		{
-			var genres = _genreRepository.GetAll();
+			var genres = _genreService.GetAll();
 			return Ok(genres);
 		}
 		[HttpGet("{Id}")]
 		public IActionResult GetGenre(int Id)
 		{
-			var genre = _genreRepository.Get(i => i.Id == Id);
+			var genre = _genreService.Get(x=>x.Id==Id);
+		
 			if (genre == null)
 			{
 				//return BadRequest();
@@ -36,8 +41,9 @@ namespace MusicWebAPI.Controllers
 		[HttpPost]
 		public IActionResult AddGenre(GenreInsertDTO model)
 		{
-			var existingGenre = _genreRepository.Get(g => g.GenreName == model.GenreName);
-			if (existingGenre != null)
+			//var existingGenre = _genreRepository.Get(g => g.GenreName == model.GenreName);
+			var existingGenre = _genreService.Get(x => x.GenreName == model.GenreName);
+            if (existingGenre != null)
 			{
 				return Conflict(new { Message = "Bu tür zaten mevcut" });
 			}
@@ -46,7 +52,9 @@ namespace MusicWebAPI.Controllers
 				GenreName = model.GenreName,
 				CreatedDate = DateTime.Now,
 			};
-			_genreRepository.Insert(genre);
+			_genreService.Insert(genre);
+			//_genreRepository.Insert(genre);
+			
 			return CreatedAtAction(nameof(GetGenre), new { Id = genre.Id }, genre);
 
 			//bu sekilde return ederek, yeni oluşturulan veriyi URI'sinin, yeni oluşturulan türün ID'si ile GetGenre action'ını çağırarak elde edilebileceğini belirtir.
@@ -54,8 +62,11 @@ namespace MusicWebAPI.Controllers
 		[HttpPut]
 		public IActionResult UpdateGenre(GenreUpdateDTO model, int? Id)
 		{
-			var existingGenre = _genreRepository.Get(g => g.GenreName == model.GenreName);
-			if (existingGenre != null)
+            //var existingGenre = _genreRepository.Get(g => g.GenreName == model.GenreName);
+
+            var existingGenre = _genreService.Get(g => g.GenreName == model.GenreName);
+
+            if (existingGenre != null)
 			{
 				return Conflict(new { Message = "Bu tür zaten mevcut" });
 			}
@@ -63,12 +74,13 @@ namespace MusicWebAPI.Controllers
 			{
 				return BadRequest($"{Id} id degerine sahip olan veri bulunamadi");
 			}
-			var genre = _genreRepository.Get(g => g.Id == model.Id);
+			var genre = _genreService.Get(g => g.Id == model.Id);
 			if (genre == null)
 			{
 				return NotFound(new { Message = "Güncellenmek istenen tür bulunamadı." });
 			}
 			genre.GenreName = model.GenreName;
+
 			return Ok(genre);
 		}
 		[HttpDelete]
@@ -78,10 +90,12 @@ namespace MusicWebAPI.Controllers
 			{
 				return NotFound(new { Message = "boyle bir ıd degerine sahip genre bulunamadı." });
 			}
-			var genre = _genreRepository.Get(i => i.Id == Id);
+			var genre = _genreService.Get(i => i.Id == Id);
 			if (genre != null)
 			{
-				_genreRepository.Delete(genre);
+				//_genreRepository.Delete(genre);
+				_genreService.Update(genre);
+
 				return Ok();
 				//return NoContent();
 			}
