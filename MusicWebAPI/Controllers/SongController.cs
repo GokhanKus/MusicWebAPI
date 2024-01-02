@@ -1,4 +1,6 @@
-﻿using DataAccess.Abstract;
+﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Abstract;
 using Infrastructure.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,24 +14,27 @@ namespace MusicWebAPI.Controllers
 	[ApiController]
 	public class SongController : ControllerBase
 	{
-		private readonly ISongRepository _songRepository;
-		private readonly IArtistRepository _artistRepository;
-		public SongController(ISongRepository songRepository, IArtistRepository artistRepository)
+		//private readonly ISongRepository _songRepository;
+		//private readonly IArtistRepository _artistRepository;
+		private readonly ISongService _songService;
+		private readonly IArtistService _artistService;
+		public SongController(ISongService songService, IArtistService artistService)
 		{
-			_songRepository = songRepository;
-			_artistRepository = artistRepository;
+			_songService = songService;
+			_artistService = artistService;
 		}
+
 		[HttpGet]
 		public IActionResult GetAllSongs()
 		{
-			var songs = _songRepository.GetAll();
+			var songs = _songService.GetAll();
 			return Ok(songs);
 
 		}
 		[HttpGet("{Id}")]
 		public IActionResult GetSong(int Id)
 		{
-			var song = _songRepository.Get(s => s.Id == Id);//,includeList:"Album"
+			var song = _songService.Get(s => s.Id == Id);//,includeList:"Album"
 			if (song != null)
 			{
 				return Ok(song);
@@ -54,36 +59,38 @@ namespace MusicWebAPI.Controllers
 			biz bunu esnek hale getirdik asagida kontrol ederek ve nullable yaptik yani artik sarkiyi eklerken bir albume ait olmak zorunda degil.
 			 */
 			#endregion
-			var existingAlbum = _songRepository.Get(i => i.AlbumId == model.AlbumId);
+			var existingAlbum = _songService.Get(i => i.AlbumId == model.AlbumId);
 			if (existingAlbum != null)
 			{
 				song.AlbumId = model.AlbumId;
 			}
 
-			var existingArtist = _artistRepository.Get(i => i.ArtistName == model.ArtistName);
+			var existingArtist = _artistService.Get(i => i.ArtistName == model.ArtistName);
 			if (existingArtist == null)
 			{
 				existingArtist = new Artist
 				{
 					ArtistName = model.ArtistName ?? ""
 				};
-				_artistRepository.Insert(existingArtist);
+				_artistService.Insert(existingArtist);
 			}
 
 			//song.Artists.Add(existingArtist);
 
-			_songRepository.Insert(song);
+			_songService.Insert(song);
 			return Ok(song);
 
 		}
 		[HttpPut]
-		public IActionResult UpdateSong(int id, SongUpdateDTO model)
+		public IActionResult UpdateSong(/*int Id, */SongUpdateDTO model)
 		{
-			if (id != model.Id)
-			{
-				return BadRequest();
-			}
-			var song = _songRepository.Get(s => s.Id == id);
+			//if (id != model.Id)
+			//{
+			//	return BadRequest();
+			//}
+			//var song = _songService.Get(s => s.Id == Id);
+
+			var song = _songService.Get(s => s.Id == model.Id);
 			if (song == null)
 			{
 				return NotFound(); //aranan sarki bulunamadi
@@ -96,7 +103,7 @@ namespace MusicWebAPI.Controllers
 			song.ModifiedDate = model.ModifiedDate;
 			try
 			{
-				_songRepository.Update(song);
+				_songService.Update(song);
 				return Ok(new { Message = "Başarıyla güncellendi" });
 			}
 			catch (Exception ex)
@@ -107,12 +114,12 @@ namespace MusicWebAPI.Controllers
 		[HttpDelete]
 		public IActionResult DeleteSong(int id)
 		{
-			var song = _songRepository.Get(s => s.Id == id);
+			var song = _songService.Get(s => s.Id == id);
 			if (song == null)
 			{
 				return NotFound(new { Message = "silinecek sarki bulunamadi" });
 			}
-			_songRepository.Delete(song);
+			_songService.Delete(song);
 			return NoContent(); //basarili bir silme isleminden sonra 204 durum kodu döndürülür
 		}
 	}
