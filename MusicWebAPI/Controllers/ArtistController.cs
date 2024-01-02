@@ -1,4 +1,6 @@
-﻿using DataAccess.Abstract;
+﻿using Business.Abstract;
+using DataAccess.Abstract;
+using DataAccess.Concrete;
 using DataAccess.Context;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +16,15 @@ namespace MusicWebAPI.Controllers
 	[ApiController]
 	public class ArtistController : ControllerBase
 	{
-		private readonly IArtistRepository _artistRepository;
+		//private readonly IArtistRepository _artistRepository; artik iartistservice kullanacagiz
+		private readonly IArtistService _artistService;
 
-		public ArtistController(IArtistRepository artistRepository)
+		public ArtistController(IArtistService artistService)
 		{
-			_artistRepository = artistRepository;
+			_artistService = artistService;
+			//_artistRepository = artistRepository;
 		}
+
 		#region ReferenceHandler.IgnoreCycles ve ReferenceHandler.Preserve 
 		//ReferenceHandler.IgnoreCycles ve ReferenceHandler.Preserve arasındaki fark şudur;
 		//preserve'de döngüsel referansı alır daha buyuk json ciktisi olabilir outputu daha karmasiktir.
@@ -29,7 +34,7 @@ namespace MusicWebAPI.Controllers
 		[HttpGet]
 		public IActionResult GetAllArtist()
 		{
-			var value = _artistRepository.GetAll(includeList: "Songs");
+			var value = _artistService.GetAll(includeList: "Songs");
 			//return Ok(value);
 
 			var jsonString = JsonSerializer.Serialize(value, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.IgnoreCycles, WriteIndented = true });//pretty printing
@@ -44,7 +49,7 @@ namespace MusicWebAPI.Controllers
 			{
 				return NotFound();//return StatusCode(404, "");
 			}
-			var artist = _artistRepository.Get(i => i.Id == Id, includeList: "Songs");//,includeList:"Songs"
+			var artist = _artistService.Get(i => i.Id == Id, includeList: "Songs");//,includeList:"Songs"
 
 			var jsonString = JsonSerializer.Serialize(artist, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve, WriteIndented = true });//pretty printing
 
@@ -65,7 +70,7 @@ namespace MusicWebAPI.Controllers
 				Nationality = model.Nationality,
 			};
 
-			_artistRepository.Insert(artist);
+			_artistService.Insert(artist);
 
 			//return Ok(artist);
 			return CreatedAtAction(nameof(GetArtist), new { id = artist.Id}, artist);//model instead of artist
@@ -74,13 +79,13 @@ namespace MusicWebAPI.Controllers
 		[HttpPut]
 		public IActionResult UpdateArtist(ArtistUpdateDTO model)
 		{
-			var artist = _artistRepository.Get(a => a.Id == model.Id);
+			var artist = _artistService.Get(a => a.Id == model.Id);
 			if (artist != null)
 			{
 				artist.ArtistName = model.ArtistName;
 				artist.Nationality = model.Nationality;
 				artist.ModifiedDate = model.ModifiedDate;
-				_artistRepository.Update(artist);
+				_artistService.Update(artist);
 				//return Ok(artist);
 				return NoContent();//204 code basarili bir update veya delete isleminden sonra kullanılabilir
 			}
@@ -94,11 +99,11 @@ namespace MusicWebAPI.Controllers
 			{
 				return NotFound();
 			}
-			var entity = _artistRepository.Get(i => i.Id == Id);
+			var entity = _artistService.Get(i => i.Id == Id);
 
 			if (entity != null)
 			{
-				_artistRepository.Delete(entity);
+				_artistService.Delete(entity);
 				return Ok(entity);
 				//return NoContent();
 			}

@@ -30,6 +30,7 @@ namespace MusicWebAPI
 			builder.Services.AddScoped<ISongRepository, SongRepository>();
 			builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 			builder.Services.AddScoped<IGenreService, GenreService>();
+			builder.Services.AddScoped<IArtistService, ArtistService>();
 			#endregion
 			var app = builder.Build();
 

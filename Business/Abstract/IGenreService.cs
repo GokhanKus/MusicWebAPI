@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IGenreService
-    {
-        int Delete(Genre entity);
-
-        public Genre Get(Expression<Func<Genre, bool>> expression, params string[] IncludeLists);
-
-        public IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> expression = null, params string[] IncludeList);    
-
-        public Genre Insert(Genre entity);
-
-        public int Update(Genre entity);
-
-        //public void SoftDelete(int Id);
-
-    }
+	public interface IGenreService
+	{
+		public int Delete(Genre entity);
+		public Genre Get(Expression<Func<Genre, bool>> expression, params string[] IncludeLists);
+		public IEnumerable<Genre> GetAll(Expression<Func<Genre, bool>> expression = null, params string[] IncludeList);
+		public Genre Insert(Genre entity);
+		public int Update(Genre entity);
+		//public void SoftDelete(int Id);
+	}
 }
