@@ -66,7 +66,7 @@ namespace DataAccess.DataSeeding
 								new Song
 								{
 									SongName = "Breaking the Law",
-									Artists = new List<Artist> { new Artist { ArtistName = "Judas Priest", Nationality = "Germany", CreatedDate = DateTime.Now.AddDays(-50) } },
+									Artist = new Artist { ArtistName = "Judas Priest", Region = Region.TheUK, CreatedDate = DateTime.Now.AddDays(-50) },
 									CreatedDate = DateTime.Now.AddDays(-30),
 									Description = "Breaking the Law by Judas Priest is a classic heavy metal anthem that rebelliously captures the spirit of defiance, featuring iconic riffs and a memorable chorus.",
 									Language = Language.English,
@@ -89,7 +89,7 @@ namespace DataAccess.DataSeeding
 						new Song
 						{
 							SongName = "The Red Baron",
-							Artists = new List<Artist> { new Artist { ArtistName = "Sabaton", Nationality = "Sweden", CreatedDate = DateTime.Now.AddDays(-30) } },
+							Artist = new Artist { ArtistName = "Sabaton", Region = Region.Other, CreatedDate = DateTime.Now.AddDays(-30) },
 							CreatedDate = DateTime.Now.AddDays(-30),
 							Description = "\"The Red Baron\" by Sabaton is a powerful heavy metal anthem that vividly portrays the legendary World War I flying ace Manfred von Richthofen, known as the Red Baron, capturing the intensity and heroism of aerial combat.",
 							Language = Language.English,
@@ -100,7 +100,7 @@ namespace DataAccess.DataSeeding
 						new Song
 						{
 							SongName = "Wasting Love",
-							Artists = new List<Artist> { new Artist { ArtistName = "Iron Maiden", Nationality = "The UK", CreatedDate = DateTime.Now.AddDays(-20) } },
+							Artist = new Artist { ArtistName = "Iron Maiden", Region = Region.TheUK, CreatedDate = DateTime.Now.AddDays(-20) },
 							CreatedDate = DateTime.Now.AddDays(-30),
 							Description = "Wasting Love by Iron Maiden is a poignant ballad that explores themes of heartbreak and introspection,showcasing the band's versatility beyond their signature heavy metal sound",
 							Language = Language.English,
@@ -112,7 +112,7 @@ namespace DataAccess.DataSeeding
 						new Song
 						{
 							SongName = "Killers with the Cross",
-							Artists = new List<Artist> { new Artist { ArtistName = "Powerwolf", Nationality = "Germany", CreatedDate = DateTime.Now.AddDays(-50) } },
+							Artist = new Artist { ArtistName = "Powerwolf", Region = Region.Germany, CreatedDate = DateTime.Now.AddDays(-50) },
 							CreatedDate = DateTime.Now.AddDays(-30),
 							Description = "Killers with the Cross by Powerwolf is a high - energy,anthemic metal track that combines powerful vocals and relentless instrumentals to create a captivating and exhilarating listening experience.",
 							Language = Language.English,
@@ -130,7 +130,7 @@ namespace DataAccess.DataSeeding
 						new Artist
 						{
 							ArtistName = "Erkin Koray",
-							Nationality = "Turkey",
+							Region = Region.Turkey,
 							CreatedDate = DateTime.Now,
 							Songs = new List<Song> { new Song
 							{

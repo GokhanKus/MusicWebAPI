@@ -73,7 +73,7 @@ namespace MusicWebAPI.Controllers
             var artist = new Artist
             {
                 ArtistName = model.ArtistName,
-                Nationality = model.Nationality,
+                Region = model.Region,
             };
 
             bool isExist = _artistService.ExistingArtist(artist);
@@ -98,7 +98,7 @@ namespace MusicWebAPI.Controllers
             if (artist != null)
             {
                 artist.ArtistName = model.ArtistName;
-                artist.Nationality = model.Nationality;
+                artist.Region = model.Region;
                 artist.ModifiedDate = model.ModifiedDate;
                 _artistService.Update(artist);
                 //return Ok(artist);

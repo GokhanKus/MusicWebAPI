@@ -25,11 +25,9 @@ namespace Model.Entities
 		public Album? Album { get; set; } //one to many relation with Album ( burada many to many de yapılabilir )
 			
 		//bir albumde birden fazla şarkı olabilir, bir şarkı da birden fazla albumde bulunabilir(aynı şarkıyı farklı biri de söylemis olabilir.)
-		public List<Artist>? Artists { get; set; } //many to many bir şarkıyı birden fazla sanatçı soyler, bir sanatçı da birden fazla şarkı soyler
+		public int? ArtistId { get; set; }//burayı nullable yapmazsak, default olarak 0 degerini alır ve album tablosunda albumId'si 0 olan kayıta eklemeye calisir oyle kayit olmadigi icin hata verir
+		public Artist? Artist { get; set; } //one to many (onceden many to many idi)
 		public int? ReleaseDate { get; set; }
-
-		
-
 		public DateTime ModifiedDate { get; set; }
 
 

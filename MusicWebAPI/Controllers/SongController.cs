@@ -65,7 +65,7 @@ namespace MusicWebAPI.Controllers
 				song.AlbumId = model.AlbumId;
 			}
 
-			var existingArtist = _artistService.Get(i => i.ArtistName == model.ArtistName);
+			var existingArtist = _artistService.Get(i => i.ArtistName == model.ArtistName); //burayı duzenle cunku artık artist ve song arasında one to many yaptık
 			if (existingArtist == null)
 			{
 				existingArtist = new Artist
@@ -98,7 +98,7 @@ namespace MusicWebAPI.Controllers
 			song.SongName = model.SongName;
 			song.Description = model.Description;
 			song.ReleaseDate = model.ReleaseDate;
-			song.Artists = new List<Artist> { new Artist { ArtistName = model.ArtistName } }; //guncelleme isleminde ornegin adi x olan artist dbde var iken yine x olarak guncellersek yeni kayit ekliyor bunu duzelt.
+			song.Artist = new Artist { ArtistName = model.ArtistName }; //guncelleme isleminde ornegin adi x olan artist dbde var iken yine x olarak guncellersek yeni kayit ekliyor bunu duzelt.
 			song.Language = model.Language;
 			song.ModifiedDate = model.ModifiedDate;
 			try

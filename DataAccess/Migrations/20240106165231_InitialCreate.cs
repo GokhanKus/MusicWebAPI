@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    AlbumName = table.Column<string>(type: "TEXT", nullable: false),
+                    AlbumName = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -32,7 +32,7 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ArtistName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Nationality = table.Column<string>(type: "TEXT", nullable: true),
+                    Region = table.Column<int>(type: "INTEGER", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -65,7 +65,8 @@ namespace DataAccess.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Language = table.Column<int>(type: "INTEGER", nullable: false),
-                    AlbumId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AlbumId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ArtistId = table.Column<int>(type: "INTEGER", nullable: true),
                     ReleaseDate = table.Column<int>(type: "INTEGER", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -77,32 +78,12 @@ namespace DataAccess.Migrations
                         name: "FK_Songs_Albums_AlbumId",
                         column: x => x.AlbumId,
                         principalTable: "Albums",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ArtistSong",
-                columns: table => new
-                {
-                    ArtistsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SongsId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ArtistSong", x => new { x.ArtistsId, x.SongsId });
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ArtistSong_Artists_ArtistsId",
-                        column: x => x.ArtistsId,
+                        name: "FK_Songs_Artists_ArtistId",
+                        column: x => x.ArtistId,
                         principalTable: "Artists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ArtistSong_Songs_SongsId",
-                        column: x => x.SongsId,
-                        principalTable: "Songs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -130,11 +111,6 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ArtistSong_SongsId",
-                table: "ArtistSong",
-                column: "SongsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GenreSong_SongsId",
                 table: "GenreSong",
                 column: "SongsId");
@@ -143,19 +119,18 @@ namespace DataAccess.Migrations
                 name: "IX_Songs_AlbumId",
                 table: "Songs",
                 column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Songs_ArtistId",
+                table: "Songs",
+                column: "ArtistId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ArtistSong");
-
-            migrationBuilder.DropTable(
                 name: "GenreSong");
-
-            migrationBuilder.DropTable(
-                name: "Artists");
 
             migrationBuilder.DropTable(
                 name: "Genres");
@@ -165,6 +140,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Albums");
+
+            migrationBuilder.DropTable(
+                name: "Artists");
         }
     }
 }

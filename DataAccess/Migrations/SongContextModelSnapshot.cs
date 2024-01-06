@@ -17,21 +17,6 @@ namespace DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
 
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SongsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ArtistsId", "SongsId");
-
-                    b.HasIndex("SongsId");
-
-                    b.ToTable("ArtistSong");
-                });
-
             modelBuilder.Entity("GenreSong", b =>
                 {
                     b.Property<int>("GenresId")
@@ -81,8 +66,8 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nationality")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Region")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -116,6 +101,9 @@ namespace DataAccess.Migrations
                     b.Property<int?>("AlbumId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ArtistId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
@@ -143,22 +131,9 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
+                    b.HasIndex("ArtistId");
+
                     b.ToTable("Songs");
-                });
-
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.HasOne("Model.Entities.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.Entities.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GenreSong", b =>
@@ -182,10 +157,21 @@ namespace DataAccess.Migrations
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId");
 
+                    b.HasOne("Model.Entities.Artist", "Artist")
+                        .WithMany("Songs")
+                        .HasForeignKey("ArtistId");
+
                     b.Navigation("Album");
+
+                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("Model.Entities.Album", b =>
+                {
+                    b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("Model.Entities.Artist", b =>
                 {
                     b.Navigation("Songs");
                 });

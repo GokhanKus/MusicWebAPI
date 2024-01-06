@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(SongContext))]
-    [Migration("20231222113656_InitialCreate")]
+    [Migration("20240106165231_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -19,21 +19,6 @@ namespace DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
-
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.Property<int>("ArtistsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SongsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ArtistsId", "SongsId");
-
-                    b.HasIndex("SongsId");
-
-                    b.ToTable("ArtistSong");
-                });
 
             modelBuilder.Entity("GenreSong", b =>
                 {
@@ -57,7 +42,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AlbumName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedDate")
@@ -85,8 +69,8 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nationality")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Region")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -117,7 +101,10 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AlbumId")
+                    b.Property<int?>("AlbumId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ArtistId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedDate")
@@ -147,22 +134,9 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("AlbumId");
 
+                    b.HasIndex("ArtistId");
+
                     b.ToTable("Songs");
-                });
-
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.HasOne("Model.Entities.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.Entities.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GenreSong", b =>
@@ -184,14 +158,23 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Model.Entities.Album", "Album")
                         .WithMany("Songs")
-                        .HasForeignKey("AlbumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("Model.Entities.Artist", "Artist")
+                        .WithMany("Songs")
+                        .HasForeignKey("ArtistId");
 
                     b.Navigation("Album");
+
+                    b.Navigation("Artist");
                 });
 
             modelBuilder.Entity("Model.Entities.Album", b =>
+                {
+                    b.Navigation("Songs");
+                });
+
+            modelBuilder.Entity("Model.Entities.Artist", b =>
                 {
                     b.Navigation("Songs");
                 });
