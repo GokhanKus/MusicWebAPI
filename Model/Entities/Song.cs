@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Model;
 using Model.Enums;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace Model.Entities
 		//bir albumde birden fazla şarkı olabilir, bir şarkı da birden fazla albumde bulunabilir(aynı şarkıyı farklı biri de söylemis olabilir.)
 		public List<Artist>? Artists { get; set; } //many to many bir şarkıyı birden fazla sanatçı soyler, bir sanatçı da birden fazla şarkı soyler
 		public int? ReleaseDate { get; set; }
+
+		
 
 		public DateTime ModifiedDate { get; set; }
 

@@ -7,6 +7,7 @@ using DataAccess.Context;
 using DataAccess.DataSeeding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace MusicWebAPI
 {
@@ -20,7 +21,7 @@ namespace MusicWebAPI
 			var connectionString = builder.Configuration.GetConnectionString("sqLiteConnection");
 			builder.Services.AddDbContext<SongContext>(options => options.UseSqlite(connectionString));
 
-			builder.Services.AddControllers();
+			builder.Services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore); ;
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();

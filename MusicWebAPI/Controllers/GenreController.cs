@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿
+using Business.Abstract;
 using DataAccess.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,8 @@ namespace MusicWebAPI.Controllers
 		{
             //var existingGenre = _genreRepository.Get(g => g.GenreName == model.GenreName);
 
+			
+
             var existingGenre = _genreService.Get(g => g.GenreName == model.GenreName);
 
             if (existingGenre != null)
@@ -94,7 +97,7 @@ namespace MusicWebAPI.Controllers
 			if (genre != null)
 			{
 				//_genreRepository.Delete(genre);
-				_genreService.Update(genre);
+				_genreService.Delete(genre);
 
 				return Ok();
 				//return NoContent();

@@ -16,5 +16,7 @@ namespace Business.Abstract
 		public Artist Insert(Artist artist);
 		public int Update(Artist artist);
 		public void SoftDelete(int Id);
-	}
+		public bool ExistingArtist(Artist model);
+
+    }
 }
